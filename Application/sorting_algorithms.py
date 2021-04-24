@@ -3,21 +3,17 @@
 #Computer Science - Data Analytics course
 #Noa P Prada Schnor   G00364074
 
-#Application used to benchmark 5 sorting algorithms: insertion sort, merge sort, counting sort, quicksort and timsort:
+#Application used to benchmark 5 sorting algorithms: insertion sort, merge sort, counting sort, quicksort and timsort. Application's files:
+#sorting_algorithms.py - contains the 5 sorting functions
+#randomArrays.py - contains the functions that creates random arrays, and an array of arrays of different sizes
+#benchmark_plot.py - run this to get the results: table and plot
 
 #########################################################################################################
 
 #import libraries and modules
 import numpy as np
 
-#########################################################################################################
-
-#Create arrays to test the sorting algorithms
-def random_array(n): #function that randomly generates integers between 0 an 99
-  array = np.random.randint(0, 100, n)
-  return array
-
-########################################################################################################
+##################################################
 
 #Sorting algorithms
 
@@ -36,6 +32,8 @@ def insertionSort(array,left=0,right=None):
 
   return array
 
+##################################################
+
 # MergeSort code adapted from Panjak https://www.journaldev.com/31541/merge-sort-algorithm-java-c-python)
 def mergeSort(array,left=None, mid = None, right=None): #divide and conquer sorting algorithm
   
@@ -43,7 +41,7 @@ def mergeSort(array,left=None, mid = None, right=None): #divide and conquer sort
     if left is None and mid is None and right is None:
       mid = len(array)//2  # get the number of half of the length of the array
       left = array[:mid]  # first half of the array
-      right = array[mid:]  # second halt of the array
+      right = array[mid:]  # second half of the array
     
     #recursive function that splits the array in small chunks
     mergeSort(left)
@@ -112,30 +110,29 @@ def merge_sort(array,lt,mid,rt): #version of merge sort that will be called by t
     j += 1
 
 
+##################################################
+
 #countingSort code by https://codezup.com/implementation-of-counting-sort-algorithm-in-python/
 #non comparison sorting algorithm
-def countingSort(array): 
-  maxValue = 0
+def countingSort(array):
 
-  for i in range(len(array)): #to get the element with max value of the array
-    if array[i] > maxValue: #if the element in the i position is bigger than the value stored in maxValue variable, than maxValue get the value of that element
-      maxValue = array[i]
-
-  counter = [0] * (maxValue+1) #create a bucket to each value
+  counter = [0] * (100) #create a 'bucket' to each value. Max value = 99
 
   for i in array:
-    counter[i] += 1 #keep counter for each bucket
+    counter[i] += 1 #keep counter for each 'bucket'
   
-  #For each bucket, from smallest key to largest, add the index of the bucket to the input array
+  #For each 'bucket', from smallest key to largest, add the index of the bucket to the input array
   i=0
-  for j in range(maxValue+1): 
-    for a in range(counter[j]):
+  for j in range(100): #from 0 to 99 (max value)
+    for _ in range(counter[j]):
       array[i] = j
       i += 1
   
   return array
 
-#quickSort code adapted from https://realpython.com/sorting-algorithms-python/
+##################################################
+
+#quickSort code adapted from Santiago Valdarrama https://realpython.com/sorting-algorithms-python/
 def quickSort(array):
   if len(array) < 2: #if the array contains less than 2 elements,, then return the array
     return array
@@ -154,7 +151,9 @@ def quickSort(array):
   
   return quickSort(low) + same + quickSort(high) #recursively runs through the low and high arrays, resulting in the combination of the sorted lists.
 
-#################################################https://www.codespeedy.com/timsort-algorithm-implementation-in-python/
+##################################################
+
+ # minrun code from Karthik Desingu https://www.codespeedy.com/timsort-algorithm-implementation-in-python/
 
 min_num = 32
 
@@ -167,10 +166,10 @@ def minrun(n):
   
   return n + r
 
-# timSort adapted from Tarcisio Marinho https://github.com/tarcisio-marinho/sorting-algorithms/blob/master/timsort.py and https://github.com/DrYshio/TimSort/blob/main/main.py
+# timSort adapted from Tarcisio Marinho https://github.com/tarcisio-marinho/sorting-algorithms/blob/master/timsort.py and DrYshio https://github.com/DrYshio/TimSort/blob/main/main.py
 def timSort(array):  #hybrid sorting algorithm = insertion sort + merge sort
   n = len(array)
-  min_run = minrun(n)
+  min_run = minrun(n) #minimum number of elements of a run
 
   for s in range(0,n,min_run):
     e = min(s + min_run - 1, n-1)
