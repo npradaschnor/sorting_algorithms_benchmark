@@ -9,22 +9,26 @@
 #benchmark_plot.py - run this to get the results: table and plot
 
 #########################################################################################################
-
+#Import functions and variables from other .py files
 from sorting_algorithms import insertionSort, mergeSort,countingSort, quickSort, timSort
 from randomArrays import list_arr, arr20, arr50, arr100, arr250, arr500, arr750, arr1000, arr1250, arr2500, arr3750, arr5000, arr6250, arr7500, arr8750, arr10000, size_n
-import time
-import numpy as np
-from matplotlib import pyplot as plt
-import pandas as pd
-import copy
 
+import time #to ge the elapsed time (run time of each sorting function)
+import copy  # deepcopy of arrays
+import numpy as np #convert to no arrapy
+import pandas as pd #create a dataframe with all results (running time)
+
+#Libraries to plot
+from matplotlib import pyplot as plt
+import seaborn as sns
+sns.set() #setting seaborn default style
 ##################################################################################################################
 
 #Benchmark
 
 def timerRun(function, array):  # function to get the avg run time. The arg array is a list of 10 different arrays with same number of elements
 
-  arr = copy.deepcopy(array) #to avoid the original array of been sorted
+  arr = copy.deepcopy(array) #avoid the original array to be sorted
 
   results = []  # will store the running time of the 10 times
 
@@ -32,35 +36,35 @@ def timerRun(function, array):  # function to get the avg run time. The arg arra
 
   while i < 10: #will run 10 times     
     start_time = time.time() #log the start time in seconds
-    function(arr[i])  # each time the function is called a different array is used as an argument
+    function(arr[i])  # each time the function is called a different array is used as an arg
     end_time = time.time() #log the end time in seconds
     results.append(end_time-start_time) #add into the results array the time in seconds that the function run
-    i += 1 #increase by 1 d
+    i += 1 #increase i by 1
 
   r = sum(results)  # sum the results of 10 runs
   l = len(results)  # get the number of times that it run
 
-  # final result is the total running time divided by number of times it rum and multiplied by 1000 to get the result in milliseconds
+  # final result = total running time divided by number of times it run, and multiplied by 1000 (to convert the result to milliseconds)
   avg_run = (r/l)*1000
 
-  # return the average run time with 3 decimal places
+  # return the average of run time with 3 decimal places
   return (round(avg_run, 3))
 
 
 
 ##################################################
 
-#get the average running time of sorting algorithms to sort random array of different sizes
+#get the average running time of sorting algorithms to sort random arrays of different sizes
 
 def sortRun(sort_function): 
 
-  avg_time = [] #empty list to be populated with avg running time of the sorting function with different array sizes
+  avg_time = [] #empty list to be populated with avg running time of the sorting function with different input sizes
 
   global list_arr #list that contains 14 lists with different size and each list contains 10 nested arrays with same number of elements
 
-  new_list = copy.deepcopy(list_arr) #independent copy of list_arr. So, each time sortRun is called, the list_arr remains the same and an independent copy is made
+  new_list = copy.deepcopy(list_arr) #independent copy of list_arr. So, each time sortRun is called, the list_arr remains the same and an independent copy is make
 
-  index = 0 #index starts at 0 and will be increased to 14, until the while loop stops. 
+  index = 0 #index starts at 0 and will be increased to 14, then the while loop will stop. 
 
   while index < 15: #there are 15 different input sizes (check randomArrays.py for more info)
       avg_run_test = timerRun(sort_function, new_list[index]) #get the avg run time of 10 times the function run with a specific input size
@@ -84,7 +88,7 @@ timSort_time = sortRun(timSort)
 
 def dataframeResult():
   sort_name = ["Insertion Sort", "Merge Sort", "Counting Sort","Quicksort", "Timsort"] #will be used as the index of the dataframe
-  input_size = ["20","50","100","250","500","750","1000","1250","2500","3750","5000","6250","7500","8750","10000"] #will be used as header
+  input_size = ["20","50","100","250","500","750","1000","1250","2500","3750","5000","6250","7500","8750","10000"] #will be used as the header of the df
 
   #Create the arrays with the avg running time 
   insertionSort_t = np.array(insertionSort_time)
@@ -92,7 +96,6 @@ def dataframeResult():
   countingSort_t = np.array(countingSort_time)
   quickSort_t = np.array(quickSort_time)
   timSort_t = np.array(timSort_time)
-
 
   #Tuple containing all the avg running time
   time_result = (insertionSort_t,mergeSort_t,countingSort_t, quickSort_t,timSort_t)
@@ -149,4 +152,4 @@ if __name__ == "__main__":
   print(dataframe)
 
   #show the Complexity plot of chosen sorting algorithms
-  plotResult()
+  plotResult() #one plot containing the running time of all 5 sorting alg

@@ -137,7 +137,7 @@ def quickSort(array):
   if len(array) < 2: #if the array contains less than 2 elements,, then return the array
     return array
   
-  low,same,high = [],[],[] #creating empty arrays to populate them. Low = elements with values less than the pivot. Same will contain the pivot element and elements with same value than the pivot element. High array will contain elements with values more than the pivot element.
+  low,same,high = [],[],[] #creat empty arrays to populate them. Low = elements with values less than the pivot. Same will contain the pivot element and elements with same value than the pivot element. High array will contain elements with values more than the pivot element.
 
   pivot = array[np.random.randint(0,len(array)-1)] #randomly choose the pivot element
 
